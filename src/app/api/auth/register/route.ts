@@ -9,7 +9,7 @@ import { User } from '@prisma/client';
 export async function POST(request: NextRequest) {
     try {
         const data = await request.json();
-        vine.errorReporter = () => new CustomErrorReporter
+        vine.errorReporter = () => new CustomErrorReporter()
         const validator = vine.compile(registerSchema);
         const validatedData = await validator.validate(data);
 
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
             status: 200,
-            message:'Account created successfully.'
+            message:'Account created successfully'
         })
     }
     catch (error) {
