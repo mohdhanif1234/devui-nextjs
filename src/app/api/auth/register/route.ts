@@ -9,6 +9,7 @@ import { User } from '@prisma/client';
 export async function POST(request: NextRequest) {
     try {
         const data = await request.json();
+        console.log('User Data----', data)
         vine.errorReporter = () => new CustomErrorReporter()
         const validator = vine.compile(registerSchema);
         const validatedData = await validator.validate(data);

@@ -6,15 +6,36 @@ import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from 'react'
+import axios from "axios"
+import { useRouter } from 'next/navigation'
+import { AuthErrorType } from "@/types/types"
 
 const Register = () => {
-  const[name, setName]=useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const[confirmPassword, setConfirmPassword]=useState('');
+  const [password_confirmation, setConfirmPassword] = useState('');
+  const router = useRouter();
+  const [errors, setErrors] = useState<AuthErrorType>({});
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const handleRegister=()=>{
-
+  const handleRegister = () => {
+    setLoading(true)
+    axios.post(`/api/auth/register`, { name, email, password, password_confirmation })
+      .then(res => {
+        setLoading(false)
+        const response = res.data;
+        if (response.status === 200) {
+          router.push(`/login?message=${response.message}`)
+        }
+        else if (response.status === 400) {
+          setErrors(response.errors)
+        }
+      })
+      .catch(err => {
+        setLoading(false)
+        console.log('The error is: ', err)
+      })
   }
 
   return (
@@ -49,6 +70,8 @@ const Register = () => {
               />
             </div>
 
+            <span className="text-red-400 font-bold">{errors?.name}</span>
+
             <div className="mt-4">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -59,6 +82,8 @@ const Register = () => {
                 onChange={e => setEmail(e.target.value)}
               />
             </div>
+
+            <span className="text-red-400 font-bold">{errors?.email}</span>
 
             <div className="mt-4">
               <Label htmlFor="password">Password</Label>
@@ -71,19 +96,23 @@ const Register = () => {
               />
             </div>
 
+            <span className="text-red-400 font-bold">{errors?.password}</span>
+
             <div className="mt-4">
               <Label htmlFor="confirmpassword">Confirm Password</Label>
               <Input
                 placeholder="Enter your confirm password"
                 id="confirmpassword"
                 type="password"
-                value={confirmPassword}
+                value={password_confirmation}
                 onChange={e => setConfirmPassword(e.target.value)}
               />
             </div>
 
             <div className="mt-4">
-              <Button onClick={handleRegister} className="w-full">Register</Button>
+              <Button disabled={loading} onClick={handleRegister} className="w-full">
+                {loading ? "Processing..." : "Register"}
+              </Button>
             </div>
 
             <div className="mt-2 text-center">

@@ -1,5 +1,20 @@
-import { AuthOptions } from 'next-auth'
+import prisma from '@/database/prisma.config';
+import { User } from '@prisma/client';
+import { AuthOptions, ISODateString } from 'next-auth'
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from "next-auth/providers/credentials";
+
+// Custom Type
+export interface CustomSession {
+    user?: any,
+    expires: ISODateString
+}
+export interface CustomUser {
+    id?: string | null
+    name?: string | null
+    email?: string | null
+    image?: string | null
+}
 
 export const authOptions: AuthOptions = {
     pages: {
@@ -9,17 +24,47 @@ export const authOptions: AuthOptions = {
         CredentialsProvider({
             name: "Sign in with DevUI",
             credentials: {
-                username: { label: "email", type: "email", placeholder: "email" },
+                email: { label: "email", type: "email", },
                 password: { label: "password", type: "password" }
             },
             async authorize(credentials, req) {
-                const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email: credentials?.email
+                    },
+                    select: {
+                        id: true,
+                        email: true,
+                        name: true
+                    }
+                })
+
                 if (user) {
-                    return user
-                } else {
+                    return { id: user.id.toString(), name: user.name, email: user.email }
+                }
+                else {
                     return null
                 }
             }
         })
-    ]
+    ],
+    callbacks: {
+        async jwt({ token, user }: any) {
+            if (user) {
+                token.user = user
+            }
+            return token
+        },
+        async session({ session, token, user }: any) {
+            session.user = token.user
+            return session
+            // return {
+            //     ...session,
+            //     user: {
+            //         ...session.user,
+            //         id: token.user.id
+            //     }
+            // }
+        }
+    }
 }
