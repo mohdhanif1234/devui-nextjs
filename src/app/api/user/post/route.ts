@@ -8,10 +8,27 @@ import { getRandomNumber } from '@/lib/utils';
 import { writeFile } from 'fs/promises';
 import prisma from '@/database/prisma.config';
 
+export async function GET(request: NextRequest) {
+    const posts = await prisma.post.findMany({
+        orderBy: {
+            id: 'desc'
+        },
+        include: {
+            user: {
+                select: {
+                    name: true,
+                }
+            }
+        }
+    })
+
+    return NextResponse.json({ status: 200, data: posts })
+}
+
 export async function POST(request: NextRequest) {
     try {
         const formData = await request.formData();
-        const file = formData.get('image') as Blob | null;
+        const file = formData.get('image') as File | null;
 
         console.log('File is -----', file)
 
