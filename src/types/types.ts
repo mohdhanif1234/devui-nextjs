@@ -3,3 +3,9 @@ export type AuthErrorType = {
     email?: string
     password?: string
 }
+
+export type PostErrorType={
+    title?:string
+    description?:string
+    image?:string
+}

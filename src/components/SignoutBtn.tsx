@@ -20,27 +20,29 @@ const SignoutBtn = () => {
 
     return (
         <>
-            <AlertDialog>
-                <AlertDialogTrigger>
-                    <Button
-                        variant={"destructive"}
-                    // onClick={handleLogout}
-                    >Sign Out
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            After this you will be logged out from this app and you have to log in again to acess your profile page.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleLogout}>Yes Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <div className="ml-5">
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button
+                            variant={"destructive"}
+                        // onClick={handleLogout}
+                        >Sign Out
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                After this you will be logged out from this app and you have to log in again to acess your profile page.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleLogout}>Yes Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </div>
         </>
     )
 }
