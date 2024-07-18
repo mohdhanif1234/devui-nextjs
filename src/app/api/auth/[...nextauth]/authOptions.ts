@@ -6,8 +6,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 // Custom Type
 export interface CustomSession {
-    user?: any,
-    expires: ISODateString
+    user?: CustomUser,
+    expires?: ISODateString
 }
 export interface CustomUser {
     id?: string | null
