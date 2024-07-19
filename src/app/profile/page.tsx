@@ -11,15 +11,11 @@ export async function getUserPost() {
     const res = await fetch(`${process.env.APP_URL}/api/user/post`, {
         headers: headers()
     })
-
     if (!res.ok) {
         throw new Error("Something went wrong during fetch.");
     }
-
     const response = await res.json();
-
     console.log('Response----', response)
-
     return response?.data;
 }
 
@@ -45,15 +41,15 @@ export default async function Profile() {
 
                     <div className="flex justify-center items-center mt-10">
                         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                        {
-                            posts !== undefined && posts !== null ? (
-                                posts.map((item: PostType) => (
-                                    <UserPostCard post={item} />
-                                ))
-                            ) : (
-                                <div>No Post found!</div>
-                            )
-                        }
+                            {
+                                posts !== undefined && posts !== null ? (
+                                    posts.map((item: PostType) => (
+                                        <UserPostCard post={item} />
+                                    ))
+                                ) : (
+                                    <div>No Post found!</div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

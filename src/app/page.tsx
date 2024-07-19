@@ -4,14 +4,25 @@ import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import Navbar from "@/components/Navbar";
 import { PostType } from "@/types/types";
 import PostCard from "@/components/PostCard";
-import { getUserPost } from "./profile/page";
+import { headers } from "next/headers";
+
+export async function getAllPosts() {
+  const res = await fetch(`${process.env.APP_URL}/api/all`, {
+      headers: headers()
+  })
+  if (!res.ok) {
+      throw new Error("Something went wrong during fetch.");
+  }
+  const response = await res.json()
+  console.log('Response----', response)
+  return response?.data;
+}
 
 export default async function Home() {
-  const posts: PostType[] = await getUserPost()
+  const posts: PostType[] = await getAllPosts()
   return (
     <div>
       <Navbar />
-
       <div className="container">
         <div className="flex justify-center flex-col items-center">
           <h1 className="text-5xl font-bold">UI Home</h1>
