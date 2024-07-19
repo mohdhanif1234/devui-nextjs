@@ -5,9 +5,9 @@ import SignoutBtn from '@/components/SignoutBtn'
 import AddPost from '@/components/AddPost'
 import { headers } from 'next/headers'
 import { PostType } from '@/types/types'
-import UserPostCard from '@/components/ui/UserPostCard'
+import UserPostCard from '@/components/UserPostCard'
 
-async function getUserPost() {
+export async function getUserPost() {
     const res = await fetch(`${process.env.APP_URL}/api/user/post`, {
         headers: headers()
     })

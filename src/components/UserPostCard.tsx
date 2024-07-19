@@ -2,7 +2,7 @@
 import { formatDate } from "@/lib/utils"
 import { PostType } from "@/types/types"
 import Image from "next/image"
-import PostDeleteBtn from "../PostDeleteBtn"
+import PostDeleteBtn from "./PostDeleteBtn"
 
 const UserPostCard = ({ post }: { post: PostType }) => {
     return (

@@ -5,7 +5,7 @@ import Image from "next/image"
 const Loading = () => {
   return (
     <div>
-      <div className="h-screen w-screen flex justify-center items-center">
+      <div className="h-screen w-screen flex justify-center items-center flex-col">
         <Image
         src={"/images/loading.svg"}
         alt="loading image"
