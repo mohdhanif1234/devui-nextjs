@@ -2,12 +2,12 @@
 import { formatDate } from "@/lib/utils"
 import { PostType } from "@/types/types"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import PostDeleteBtn from "../PostDeleteBtn"
 
 const UserPostCard = ({ post }: { post: PostType }) => {
     return (
         <div className="text-left">
-            <div className="w-[500px] h-[500px] shadow-md rounded-md">
+            <div className="w-[500px] h-min-[500px] shadow-md rounded-md">
                 <div className="p-5 flex justify-between flex-col">
                     <div className="p-5 flex justify-between items-center">
                         <div>
@@ -16,11 +16,7 @@ const UserPostCard = ({ post }: { post: PostType }) => {
                             </h1>
                             <p>{formatDate(post.created_at)}</p>
                         </div>
-                        <Button
-                            variant={"destructive"}
-                        >
-                            Delete
-                        </Button>
+                        <PostDeleteBtn id={post.id} />
                     </div>
 
                     <Image

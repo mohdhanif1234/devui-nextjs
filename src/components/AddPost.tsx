@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "./ui/textarea"
 import { PostErrorType } from "@/types/types"
 import axios from "axios"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 
 const AddPost = ({ user_id }: { user_id: string }) => {
     const [sheetOpen, setSheetOpen] = useState<boolean>(false);
@@ -27,6 +29,9 @@ const AddPost = ({ user_id }: { user_id: string }) => {
     const [file, setFile] = useState<File | null>(null)
     const [loading, setLoading] = useState<boolean>();
     const [errors, setErrors] = useState<PostErrorType>({})
+
+    const router=useRouter()
+    const { toast } = useToast()
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
@@ -49,8 +54,14 @@ const AddPost = ({ user_id }: { user_id: string }) => {
                 setLoading(false)
                 const response = res.data;
                 if (response.status === 200) {
-                    alert('Post created')
+                    toast({
+                        title:'Post created',
+                        description:response.message,
+                        className:"bg-green-400"
+                    })
+
                     setSheetOpen(false)
+                    router.refresh();
                 }
                 else if (response.status === 400) {
                     setErrors(response.errors)

@@ -11,10 +11,10 @@ import { getServerSession } from 'next-auth';
 import { CustomSession, authOptions } from '../../auth/[...nextauth]/authOptions';
 
 export async function GET(request: NextRequest) {
-    const session:CustomSession|null=await getServerSession(authOptions);
+    const session: CustomSession | null = await getServerSession(authOptions);
 
-    if(!session){
-        return NextResponse.json({status:400,message:"Unauthorized network call"})
+    if (!session) {
+        return NextResponse.json({ status: 400, message: "Unauthorized network call" })
     }
 
     const posts = await prisma.post.findMany({
@@ -28,8 +28,8 @@ export async function GET(request: NextRequest) {
                 }
             }
         },
-        where:{
-            user_id:Number(session?.user?.id!)
+        where: {
+            user_id: Number(session?.user?.id!)
         }
     })
 
@@ -38,12 +38,12 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const session:CustomSession|null=await getServerSession(authOptions);
+        const session: CustomSession | null = await getServerSession(authOptions);
 
-        if(!session){
-            return NextResponse.json({status:400,message:"Unauthorized network call"})
+        if (!session) {
+            return NextResponse.json({ status: 400, message: "Unauthorized network call" })
         }
-        
+
         const formData = await request.formData();
         const file = formData.get('image') as File | null;
 
