@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { PostType } from "@/types/types";
 import PostCard from "@/components/PostCard";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function getAllPosts() {
   const res = await fetch(`${process.env.APP_URL}/api/all`, {
@@ -19,6 +20,11 @@ export async function getAllPosts() {
 }
 
 export default async function Home() {
+  const session = await getServerSession();
+
+  if(!session){
+    redirect('/register')
+  }
   const posts: PostType[] = await getAllPosts()
   return (
     <div>
